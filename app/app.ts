@@ -1,42 +1,31 @@
 import express, { Request, Response } from 'express'
-import { verifyToken } from "./service/verify_token";
 import { ITool, Tool } from "./entity/tool";
-import {
-	CheckoutRequestStatus,
-	checkoutTool, getTools,
-	returnTool,
-	ReturnToolStatus,
-	saveTool,
-	updateTool
-} from './service/tool-service';
 import { bootstrap } from "./bootstrap";
-import { getUserIdFromJWTToken } from "./service/user-service";
+import { getUserIdFromJWTToken } from "./service/fetch-user-service";
+import cors from 'cors';
 import bodyParser = require("body-parser");
+import { saveTool } from "./service/tool/save-tool";
+import { updateTool } from "./service/tool/update-tool";
+import { getTools } from "./service/tool/get-tool";
+import { CheckoutRequestStatus, checkoutTool } from "./service/tool/checkout";
+import { returnTool, ReturnToolStatus } from "./service/tool/return-tool";
+import { verifyToken } from "./service/verify-token";
+import { verifyAuthToken } from "./service/verify-request";
 // Create a new express application instance
 const app: express.Application = express();
 
 const router = express.Router();
 bootstrap();
 
+app.use(cors());
+
 router.use((req, res, next) => {
 
-	if (!req.headers.authorization) {
-		res.status(401);
-		res.send({'error': 'JWT TOKEN REQUIRED'});
-		return;
-	}
+	const error = verifyAuthToken(getJWTTokenFromRequest(req));
 
-	if (req.headers.authorization.split(' ').length !== 2) {
-		res.status(401);
-		res.send({'error': 'JWT TOKEN REQUIRED'});
-		return;
-	}
-
-	const token = req.headers.authorization.split(' ')[1];
-
-	if (!token || !verifyToken(token)) {
-		res.status(403);
-		res.send({'error': 'Invalid JWT Token'});
+	if (error) {
+		res.status(error.status);
+		res.send(error.error);
 		return;
 	}
 
@@ -114,7 +103,7 @@ router.patch('/tool-checkout/:id', async (req, res) => {
 		const checkoutStatus =
 			await checkoutTool(id, getUserIdFromJWTToken(getJWTTokenFromRequest(req)));
 
-		if (checkoutStatus === CheckoutRequestStatus.CHECKEDOUT) {
+		if (checkoutStatus === CheckoutRequestStatus.CHECKED_OUT) {
 			res.status(204)
 				.send( );
 			return;

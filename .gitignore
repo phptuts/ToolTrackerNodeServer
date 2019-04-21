@@ -2,3 +2,4 @@ config.json
 public_key.json
 node_modules
 .idea
+build

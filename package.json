@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "ts-node node_modules/jasmine/bin/jasmine \"**/*.spec.ts\"",
     "dev": "ts-node-dev --respawn --transpileOnly ./app/app.ts",
     "prod": "tsc && node ./build/app.js"
   },
@@ -20,6 +20,7 @@
     "aws-sdk": "^2.437.0",
     "body-parser": "^1.18.3",
     "cognito-jwt-token-validator": "^1.0.0",
+    "cors": "^2.8.5",
     "cross-fetch": "^3.0.2",
     "express": "^4.16.4",
     "jsonwebtoken": "^8.5.1",
@@ -31,6 +32,8 @@
     "typescript": "^3.4.2"
   },
   "devDependencies": {
-    "@types/node": "^11.13.0"
+    "@types/jasmine": "^3.3.12",
+    "@types/node": "^11.13.0",
+    "jasmine": "^3.4.0"
   }
 }

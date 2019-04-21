@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-const config = require('./../../config.json');
+const config = require('./../config.json');
 
 const uri = `mongodb://${config.database_url}/local`;
 

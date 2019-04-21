@@ -72,5 +72,6 @@ export {
 	Tool,
 	ITool,
 	IToolDisplay,
-	ICheckout
+	ICheckout,
+	ICheckoutDisplay
 }
