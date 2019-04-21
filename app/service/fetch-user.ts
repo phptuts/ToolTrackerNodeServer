@@ -15,7 +15,6 @@ export const getUserObject = async (id: string) => {
 		return cacheUser;
 	}
 
-
 	const filter = "sub = \"" + id + "\"";
 	const req = {
 		"Filter": filter,
@@ -30,7 +29,8 @@ export const getUserObject = async (id: string) => {
 		return undefined;
 	}
 
-	const [emailAttribute] = userData.Attributes.filter(attribute => attribute.Name == 'email');
+	const [emailAttribute] =
+		userData.Attributes.filter(attribute => attribute.Name == 'email');
 
 	if (!emailAttribute) {
 		return undefined;
@@ -40,6 +40,7 @@ export const getUserObject = async (id: string) => {
 		id
 	};
 
+	// 30 minutes is the cache time
 	cache.put(`user-${id}`, user, 1000 * 60 * 30);
 
 	return user;

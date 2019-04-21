@@ -1,35 +1,41 @@
 import express, { Request, Response } from 'express'
 import { ITool, Tool } from "./entity/tool";
 import { bootstrap } from "./bootstrap";
-import { getUserIdFromJWTToken } from "./service/fetch-user-service";
+import { getUserIdFromJWTToken } from "./service/fetch-user";
 import cors from 'cors';
-import bodyParser = require("body-parser");
 import { saveTool } from "./service/tool/save-tool";
 import { updateTool } from "./service/tool/update-tool";
 import { getTools } from "./service/tool/get-tool";
 import { CheckoutRequestStatus, checkoutTool } from "./service/tool/checkout";
 import { returnTool, ReturnToolStatus } from "./service/tool/return-tool";
-import { verifyToken } from "./service/verify-token";
-import { verifyAuthToken } from "./service/verify-request";
+import { JWT_ENUM, verifyAuthToken } from "./service/verify-request";
+import bodyParser = require("body-parser");
 // Create a new express application instance
 const app: express.Application = express();
 
 const router = express.Router();
 bootstrap();
 
+// TO BE ABLE TO RESPOND TO OPTIONS REQUEST
 app.use(cors());
 
 router.use((req, res, next) => {
 
-	const error = verifyAuthToken(getJWTTokenFromRequest(req));
+	const status = verifyAuthToken(getJWTTokenFromRequest(req));
 
-	if (error) {
-		res.status(error.status);
-		res.send(error.error);
+	if (status == JWT_ENUM.VALID_JWT_TOKEN) {
+		next();
 		return;
 	}
 
-	next();
+	if (status == JWT_ENUM.NO_JWT_TOKEN) {
+		res.status(401);
+		res.send({'error': 'AUTH TOKEN REQUIRED'});
+		return;
+	}
+
+	res.status(403);
+	res.send({'error': 'AUTH TOKEN INVALID'});
 });
 
 router.use(bodyParser.json());

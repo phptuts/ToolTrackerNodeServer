@@ -11,11 +11,7 @@ export enum CheckoutRequestStatus {
 export const checkoutTool = async ( toolId: string, userId: string ): Promise<CheckoutRequestStatus> => {
 	let tool: ITool;
 
-	try {
-		tool = await Tool.findById( toolId ).exec();
-	} catch (e) {
-		return CheckoutRequestStatus.TOOL_NOT_FOUND;
-	}
+	tool = await Tool.findById( toolId ).exec();
 
 	if (!tool) {
 		return CheckoutRequestStatus.TOOL_NOT_FOUND;

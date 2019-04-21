@@ -1,12 +1,17 @@
 import { ICheckoutDisplay, ITool } from "../../entity/tool";
-import { getUserObject } from "../fetch-user-service";
+import { getUserObject } from "../fetch-user";
 
+/**
+ * Sorts the tools checkout date in descending order
+ */
 export const sortToolCheckoutHistory = ( tool: ITool ) => {
-	tool.checkoutHistory.sort( ( a, b ) =>
-		a.checkoutDate.getMilliseconds() - b.checkoutDate.getMilliseconds() );
+	tool.checkoutHistory = tool.checkoutHistory.sort( ( a, b ) =>
+		b.checkoutDate.getTime() - a.checkoutDate.getTime() );
 };
 
-
+/**
+ * Populates the a user with user information
+ */
 export const populateTool = async ( tool ) => {
 
 	const checkoutHistory = await populateToolHistory(tool);
@@ -23,6 +28,9 @@ export const populateTool = async ( tool ) => {
 	}
 };
 
+/**
+ * Populates the tool's user history with user information
+ */
 export const populateToolHistory = async (tool: ITool): Promise<ICheckoutDisplay[]> => {
 	return Promise.all( tool.checkoutHistory.map( async ( entry ) => {
 		const returnUser = entry.userReturningTool ? await getUserObject( entry.userReturningTool ) : undefined;

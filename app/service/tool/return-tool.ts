@@ -7,15 +7,13 @@ export enum ReturnToolStatus {
 	TOOL_ALREADY_RETURNED
 }
 
-
-
 export const returnTool = async ( toolId: string, userId: string ): Promise<ReturnToolStatus> => {
 
 	let tool: ITool;
 
-	try {
-		tool = await Tool.findById( toolId ).exec();
-	} catch (e) {
+	tool = await Tool.findById( toolId ).exec();
+
+	if (!tool) {
 		return ReturnToolStatus.TOOL_NOT_FOUND;
 	}
 

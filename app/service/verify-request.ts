@@ -1,17 +1,27 @@
 import { verifyToken } from "./verify-token";
 
 
-export const verifyAuthToken = (token: string|undefined): {'error': string, status: number}|undefined => {
+export enum JWT_ENUM {
+	NO_JWT_TOKEN,
+	INVALID_JWT_TOKEN,
+	VALID_JWT_TOKEN
+}
+
+export const verifyAuthToken = (token: string|undefined): JWT_ENUM => {
 
 	if (!token) {
-		return {'error': 'JWT TOKEN REQUIRED', status: 401};;
+		return JWT_ENUM.NO_JWT_TOKEN;
 	}
 
 	token = token.split(' ')[1];
 
-	if (!token || !verifyToken(token)) {
-		return {'error': 'Invalid JWT Token', status: 403};
+	if (token) {
+		return JWT_ENUM.NO_JWT_TOKEN;
 	}
 
-	return undefined;
+	if (!verifyToken(token)) {
+		return JWT_ENUM.INVALID_JWT_TOKEN
+	}
+
+	return JWT_ENUM.VALID_JWT_TOKEN;
 }
