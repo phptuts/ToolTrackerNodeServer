@@ -7,6 +7,9 @@ export enum ReturnToolStatus {
 	TOOL_ALREADY_RETURNED
 }
 
+/**
+ * Returns a tool
+ */
 export const returnTool = async ( toolId: string, userId: string ): Promise<ReturnToolStatus> => {
 
 	let tool: ITool;

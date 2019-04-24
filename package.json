@@ -17,6 +17,7 @@
     "@types/jsonwebtoken": "^8.3.2",
     "@types/memory-cache": "^0.2.0",
     "@types/mongoose": "^5.3.25",
+    "atob": "^2.1.2",
     "aws-sdk": "^2.437.0",
     "body-parser": "^1.18.3",
     "cognito-jwt-token-validator": "^1.0.0",

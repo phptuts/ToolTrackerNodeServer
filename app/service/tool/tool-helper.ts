@@ -1,4 +1,4 @@
-import { ICheckoutDisplay, ITool } from "../../entity/tool";
+import { ICheckoutDisplay, ITool, IToolDisplay } from "../../entity/tool";
 import { getUserObject } from "../fetch-user";
 
 /**
@@ -12,7 +12,7 @@ export const sortToolCheckoutHistory = ( tool: ITool ) => {
 /**
  * Populates the a user with user information
  */
-export const populateTool = async ( tool ) => {
+export const populateTool = async ( tool: ITool ): Promise<IToolDisplay> => {
 
 	const checkoutHistory = await populateToolHistory(tool);
 

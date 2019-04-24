@@ -1,12 +1,8 @@
-import AWS from "aws-sdk";
 import { ListUsersResponse } from "aws-sdk/clients/cognitoidentityserviceprovider";
-const config = require('./../../config.json');
 const cache = require('memory-cache');
+const config = require('./../../config.json');
+import { cognitoClient } from './congito-client';
 
-
-const cognitoClient = new AWS.CognitoIdentityServiceProvider({
-	region: config.region
-});
 
 export const getUserObject = async (id: string) => {
 
@@ -23,7 +19,7 @@ export const getUserObject = async (id: string) => {
 
 	const userList: ListUsersResponse =  await cognitoClient.listUsers(req).promise();
 
-	const userData = userList.Users[0];
+	const [userData] = userList.Users;
 
 	if (!userData) {
 		return undefined;
@@ -47,18 +43,4 @@ export const getUserObject = async (id: string) => {
 };
 
 
-export const getUserIdFromJWTToken = (token: string) => {
-	const { sub } = decodeJWTTokenPayload(token);
-
-	return sub;
-};
-
-
-const decodeJWTTokenPayload = (token: string) => {
-	const [, payloadEncoded] = token.split('.');
-
-	const buff = new Buffer(payloadEncoded, 'base64');
-	const text = buff.toString('ascii');
-	return JSON.parse(text);
-};
 

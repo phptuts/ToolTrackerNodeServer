@@ -1,14 +1,13 @@
-import express, { Request, Response } from 'express'
-import { ITool, Tool } from "./entity/tool";
+import express, { Response } from 'express'
+import { Tool } from "./entity/tool";
 import { bootstrap } from "./bootstrap";
-import { getUserIdFromJWTToken } from "./service/fetch-user";
+import { getJWTTokenFromRequest, getUserIdFromJWTToken } from "./service/jwt";
 import cors from 'cors';
-import { saveTool } from "./service/tool/save-tool";
-import { updateTool } from "./service/tool/update-tool";
+import { saveTool, updateTool } from "./service/tool/save-tool";
 import { getTools } from "./service/tool/get-tool";
 import { CheckoutRequestStatus, checkoutTool } from "./service/tool/checkout";
 import { returnTool, ReturnToolStatus } from "./service/tool/return-tool";
-import { JWT_ENUM, verifyAuthToken } from "./service/verify-request";
+import { JWT_ENUM, verifyAuthToken } from "./service/verify-token";
 import bodyParser = require("body-parser");
 // Create a new express application instance
 const app: express.Application = express();
@@ -41,27 +40,15 @@ router.use((req, res, next) => {
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: true }));
 
-router.get('/',  (req, res) => {
-	res.send('Hello World!');
-});
-
-
-const getJWTTokenFromRequest = (req: Request) => {
-	const authHeader = req.headers.authorization.split(' ');
-
-	return authHeader.length == 2 ? authHeader[1] : undefined;
-};
-
-
 /**
  * Route for adding a tool
  */
 router.post('/tool', async (req, res) => {
 	try {
 
-		const toolJson: ITool = req.body;
+		const toolJson = req.body;
 		toolJson.createdBy = getUserIdFromJWTToken(getJWTTokenFromRequest(req));
-
+		toolJson.checkoutHistory = [];
 		const tool = await saveTool(new Tool(toolJson));
 		res.status(201).send(tool.toJSON());
 		return;

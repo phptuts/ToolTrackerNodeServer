@@ -8,6 +8,9 @@ export enum CheckoutRequestStatus {
 	TOOL_NOT_FOUND
 }
 
+/**
+ * Checks out a tool
+ */
 export const checkoutTool = async ( toolId: string, userId: string ): Promise<CheckoutRequestStatus> => {
 	let tool: ITool;
 
