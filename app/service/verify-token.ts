@@ -1,6 +1,6 @@
-const jwt = require('jsonwebtoken');
-const jwkToPem = require('jwk-to-pem');
-import  jwk = require('../../public_key.json');
+import jwt from 'jsonwebtoken';
+import jwkToPem  from 'jwk-to-pem';
+import jwk = require('../../public_key.json');
 // Where the token is store
 // https://cognito-idp.{region}.amazonaws.com/{userpoolid}/.well-known/jwks.json
 const pem = jwkToPem(jwk);
@@ -19,13 +19,7 @@ export const verifyAuthToken = (token: string|undefined): JWT_ENUM => {
 		return JWT_ENUM.NO_JWT_TOKEN;
 	}
 
-	const [jwtToken] = token.split(' ');
-
-	if (!jwtToken) {
-		return JWT_ENUM.NO_JWT_TOKEN;
-	}
-
-	if (!verifyToken(jwtToken)) {
+	if (!verifyToken(token)) {
 		return JWT_ENUM.INVALID_JWT_TOKEN
 	}
 

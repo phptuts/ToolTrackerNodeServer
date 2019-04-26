@@ -12,8 +12,6 @@ interface ITool extends Document {
 	checkoutHistory: Array<ICheckout>;
 }
 
-
-
 interface ICheckout  {
 	userCheckingOutTool: string;
 	checkoutDate: Date;
