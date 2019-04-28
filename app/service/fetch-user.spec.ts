@@ -48,7 +48,30 @@ describe('fetch user', () => {
 		expect(user.id).toBe('user_id');
 	});
 
-	it ('should return if it can not find the user', async () => {
+	it ('should return undefined if no email is present', async () => {
+		const users: any|ListUsersResponse = {
+			Users: [
+				{
+					Attributes: [
+						{
+							Name: 'sub',
+							Value: 'asdfasdfsadf'
+						}
+					]
+				}
+			]
+		};
+
+		listUserSpy.mockImplementation(() => {
+			return { promise: () => Promise.resolve(users) }
+		});
+
+		const user = await getUserObject('user_id');
+
+		expect(user).toBeUndefined();
+	});
+
+	it ('should return undefined if it can not find the user', async () => {
 		const users: any|ListUsersResponse = {
 			Users: []
 		};

@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">50% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>7/14</span>
+        <span class='fraction'>14/14</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
@@ -30,21 +30,21 @@
         <span class='fraction'>0/0</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">40% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>2/5</span>
+        <span class='fraction'>5/5</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">50% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>6/12</span>
+        <span class='fraction'>12/12</span>
       </div>
     </div>
     <p class="quiet">
       Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
     </p>
   </div>
-  <div class='status-line medium'></div>
+  <div class='status-line high'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -86,31 +86,31 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { IToolDisplay, Tool } from "../../entity/tool";
 import { populateTool, sortToolCheckoutHistory } from "./tool-helper";
@@ -118,17 +118,17 @@ import { populateTool, sortToolCheckoutHistory } from "./tool-helper";
 /**
  * Gets all the tools and sorts them by name
  */
-export const getTools = <span class="fstat-no" title="function not covered" >async (): Promise&lt;IToolDisplay[]&gt; =</span>&gt;<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" > {</span></span>
-	const tools = <span class="cstat-no" title="statement not covered" >await Tool.find()</span>
+export const getTools = async (): Promise&lt;IToolDisplay[]&gt; =&gt; {
+	const tools = await Tool.find()
 								.limit(300)
 								.sort('name')
 								.exec();
 &nbsp;
-<span class="cstat-no" title="statement not covered" >	tools.forEach( <span class="fstat-no" title="function not covered" >tool </span>=&gt; {</span>
-<span class="cstat-no" title="statement not covered" >		sortToolCheckoutHistory( tool );</span>
+	tools.forEach( tool =&gt; {
+		sortToolCheckoutHistory( tool );
 	});
 &nbsp;
-<span class="cstat-no" title="statement not covered" >	return await Promise.all( tools.map(populateTool));</span>
+	return await Promise.all( tools.map(populateTool));
 };
 &nbsp;
 /**
@@ -141,9 +141,9 @@ export const getTool = async (id: string): Promise&lt;IToolDisplay|undefined&gt;
 		return undefined;
 	}
 &nbsp;
-<span class="cstat-no" title="statement not covered" >	sortToolCheckoutHistory(tool);</span>
+	sortToolCheckoutHistory(tool);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >	return populateTool(tool);</span>
+	return populateTool(tool);
 };
 &nbsp;</pre></td></tr>
 </table></pre>
@@ -151,7 +151,7 @@ export const getTool = async (id: string): Promise&lt;IToolDisplay|undefined&gt;
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sun Apr 28 2019 11:10:52 GMT-0700 (Pacific Daylight Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sun Apr 28 2019 11:22:20 GMT-0700 (Pacific Daylight Time)
 </div>
 </div>
 <script src="../../../prettify.js"></script>
