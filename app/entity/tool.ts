@@ -1,6 +1,6 @@
 import mongoose, { Model, Schema, Document } from "mongoose";
 import uniqueValidator  from 'mongoose-unique-validator';
-import { User } from "../model/User";
+import { User } from "../model/user";
 
 interface ITool extends Document {
 	createdBy: string;

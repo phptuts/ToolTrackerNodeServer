@@ -12,13 +12,12 @@ import bodyParser = require("body-parser");
 // Create a new express application instance
 const app: express.Application = express();
 
-const router = express.Router();
 bootstrap();
 
 // TO BE ABLE TO RESPOND TO OPTIONS REQUEST
 app.use(cors());
 
-router.use((req, res, next) => {
+app.use((req, res, next) => {
 
 	const status = verifyAuthToken(getJWTTokenFromRequest(req));
 
@@ -37,13 +36,13 @@ router.use((req, res, next) => {
 	res.send({'error': 'AUTH TOKEN INVALID'});
 });
 
-router.use(bodyParser.json());
-router.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 /**
  * Route for adding a tool
  */
-router.post('/tool', async (req, res) => {
+app.post('/tool', async (req, res) => {
 	try {
 
 		const toolJson = req.body;
@@ -60,7 +59,7 @@ router.post('/tool', async (req, res) => {
 /**
  * Route for the updating a tool
  */
-router.put('/tool', async (req, res) => {
+app.put('/tool', async (req, res) => {
 	try {
 		res.status(200).json(await updateTool(req.body));
 		return;
@@ -69,7 +68,7 @@ router.put('/tool', async (req, res) => {
 	}
 });
 
-router.get('/tool', async (req, res) => {
+app.get('/tool', async (req, res) => {
 
 	try {
 		const tools = await getTools();
@@ -83,7 +82,7 @@ router.get('/tool', async (req, res) => {
 
 });
 
-router.patch('/tool-checkout/:id', async (req, res) => {
+app.patch('/tool-checkout/:id', async (req, res) => {
 
 	const id = req.params['id'];
 
@@ -118,7 +117,7 @@ router.patch('/tool-checkout/:id', async (req, res) => {
 	}
 });
 
-router.patch('/tool-return/:id', async (req, res) => {
+app.patch('/tool-return/:id', async (req, res) => {
 	const id = req.params['id'];
 
 	if (!id) {
@@ -153,8 +152,6 @@ router.patch('/tool-return/:id', async (req, res) => {
 });
 
 
-app.use('/', router);
-
 /**
  * Handles Form Error and 500 Errors
  */
@@ -169,7 +166,7 @@ const handleError = (error, res: Response) => {
 	return;
 };
 
-app.listen(3000, function () {
-	console.log('Example app listening on port 3000!');
+app.listen(3000,  () => {
+	console.log('Tool Tracker Running on port 3000.!');
 });
 
