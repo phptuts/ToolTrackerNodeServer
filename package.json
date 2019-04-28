@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest *.spec.ts",
-    "test-coverage": "jest app/services/tool/*.spec.ts --env=node --colors --coverage ",
+    "test": "jest ",
     "dev": "ts-node-dev --respawn --transpileOnly ./app/app.ts",
     "prod": "tsc && node ./build/app.js"
   },

@@ -1,8 +1,8 @@
 {
   "alg": "RS256",
-  "e": "asdf",
+  "e": "dwd",
   "kid": "fake",
-  "kty": "asdf",
+  "kty": "RSA",
   "n": "fke",
   "use": "sig"
 }
