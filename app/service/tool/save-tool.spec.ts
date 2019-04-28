@@ -1,4 +1,5 @@
-import 'jasmine';
+import 'jest'
+
 import { ITool } from "../../entity/tool";
 import { saveTool, updateTool } from "./save-tool";
 import * as AllTool from "../../entity/tool";
@@ -7,20 +8,18 @@ describe('save-tool', () => {
 
 	let tool: any|ITool;
 
-	let findByIdSpy: jasmine.Spy;
+	let findByIdSpy: jest.SpyInstance;
 
-	let toolSaveSpy: jasmine.Spy;
+	let toolSaveSpy: jest.SpyInstance;
 
 	beforeEach(() => {
-		findByIdSpy = spyOn(AllTool.Tool, 'findById');
+		findByIdSpy = jest.spyOn(AllTool.Tool, 'findById');
 		tool = {
 			'save': () => {}
 		};
-		toolSaveSpy = spyOn(tool, 'save');
+		toolSaveSpy = jest.spyOn(tool, 'save');
 
-		toolSaveSpy.withArgs({ validateBeforeSave: true })
-			.and.returnValue(Promise.resolve(tool));
-
+		toolSaveSpy.mockImplementation(() => Promise.resolve(tool));
 	});
 
 	it ('should call save tool', async () => {
@@ -35,13 +34,11 @@ describe('save-tool', () => {
 		requestBody.rfid = 'rfid_number';
 		requestBody.name = 'tool name';
 		requestBody.description = 'tool description';
-		findByIdSpy.withArgs('tool_id').and.callFake(() => {
+		findByIdSpy.mockImplementation(() => {
 			return { exec: () => Promise.resolve(tool) };
 		});
 
-		toolSaveSpy.withArgs(tool).and.callFake(() => {
-			return { exec: () => Promise.resolve(tool) }
-		});
+
 
 		const actualTool = await updateTool(requestBody);
 		expect(findByIdSpy).toHaveBeenCalledWith('tool_id');

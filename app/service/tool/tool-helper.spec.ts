@@ -1,4 +1,5 @@
-import 'jasmine';
+import 'jest'
+
 import { ITool } from "../../entity/tool";
 import { populateTool, sortToolCheckoutHistory } from "./tool-helper";
 import * as userInfo from "../fetch-user";
@@ -6,7 +7,7 @@ import * as userInfo from "../fetch-user";
 describe('tool helpers', () => {
 
 	describe('sortToolCheckoutHistory', () => {
-		it ('should sort a tool list in descending order', () => {
+		test ('should sort a tool list in descending order', () => {
 
 			const tool: any|ITool = {
 				checkoutHistory: [
@@ -36,13 +37,13 @@ describe('tool helpers', () => {
 	describe('populate tool',  () => {
 
 		it ('should populate the tools with the user information', async () => {
-			const getUserInfoSpy = spyOn(userInfo, 'getUserObject');
+			const getUserInfoSpy = jest.spyOn(userInfo, 'getUserObject');
 			const expectedUser = {
 				email: 'user@gmail.com',
 				id: 'user_id_fake'
 			};
 
-			getUserInfoSpy.withArgs('user_id').and.returnValue(Promise.resolve(expectedUser));
+			getUserInfoSpy.mockImplementation(() => Promise.resolve(expectedUser));
 
 			const tool: any|ITool = {
 				createdBy: 'user_id',

@@ -1,4 +1,4 @@
-import 'jasmine';
+import 'jest';
 import { getJWTTokenFromRequest, getUserIdFromJWTToken } from "./jwt";
 import  { Request } from 'express'
 
@@ -10,7 +10,7 @@ describe('jwt', () => {
 		expect(getUserIdFromJWTToken(jwtToken)).toBe('1234567890');
 	});
 
-	it ('should be able to parse jwt from header', () => {
+	it ('should fff be able to parse jwt from header', () => {
 		const req: any|Request = {
 			headers: {
 				authorization: `Bearer ${jwtToken}`

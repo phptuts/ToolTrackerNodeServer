@@ -1,24 +1,36 @@
-import 'jasmine';
+import 'jest'
+
 import { getTool } from "./get-tool";
-import * as AllTool from "../../entity/tool";
+import { Tool } from "../../entity/tool";
+
 
 describe('get tools', () => {
 
-	let findByIdSpy: jasmine.Spy;
+	let findByIdSpy: jest.SpyInstance;
 
 	beforeEach(() => {
-		findByIdSpy = spyOn(AllTool.Tool, 'findById');
+		findByIdSpy = jest.spyOn(Tool, 'findById');
+	});
+
+	afterEach(() => {
+		findByIdSpy.mockReset();
 	});
 
 	it('should return undefined if no tools is available.', async () => {
 
-		findByIdSpy.withArgs('tool_id').and.callFake(() => {
+		findByIdSpy.mockImplementation(() => {
 			return { exec: () => Promise.resolve(undefined) };
 		});
 
 		const tool = await getTool('tool_id');
 
 		expect(tool).toBeUndefined();
+		expect(findByIdSpy).toHaveBeenCalledWith('tool_id');
+		expect(findByIdSpy).toHaveBeenCalledTimes(1);
+	});
+
+	it ('should find a list of tools', () => {
+
 	});
 
 });

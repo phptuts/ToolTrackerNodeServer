@@ -1,19 +1,25 @@
-import 'jasmine';
-import * as AllTool from '../../entity/tool';
-import { ICheckout, ITool } from '../../entity/tool';
+import 'jest'
+
+import { ICheckout, ITool, Tool } from '../../entity/tool';
 import { CheckoutRequestStatus, checkoutTool } from "./checkout";
 
 
 describe('checkout', () => {
 
-	let findByIdSpy: jasmine.Spy;
+	let findByIdSpy: jest.SpyInstance;
 
 	beforeEach(() => {
-		findByIdSpy = spyOn(AllTool.Tool, 'findById');
+		findByIdSpy = jest.spyOn(Tool, 'findById');
+	});
+
+	afterEach(() => {
+		findByIdSpy.mockReset();
 	});
 
 	it('should return a status of not found if it can not find a tool in the database', async () => {
-		findByIdSpy.withArgs('uuid_tool').and.returnValue({exec: () => Promise.resolve(null) });
+		findByIdSpy.mockImplementation(() => {
+			return { exec: () => Promise.resolve(undefined) };
+		});
 
 		expect(await checkoutTool('uuid_tool', 'user_id')).toBe(CheckoutRequestStatus.TOOL_NOT_FOUND);
 	});
@@ -27,8 +33,11 @@ describe('checkout', () => {
 		};
 
 		const toolSpy = spyOn(tool, 'save');
-		findByIdSpy.withArgs('uuid_tool')
-			.and.returnValue({exec: () => Promise.resolve(tool) });
+
+		findByIdSpy.mockImplementation(() => {
+			return { exec: () => Promise.resolve(tool) };
+		});
+
 		const status = await checkoutTool('uuid_tool', 'user_id');
 
 		expect(status).toBe(CheckoutRequestStatus.CHECKED_OUT);
@@ -51,8 +60,10 @@ describe('checkout', () => {
 			save: () => {}
 		};
 
-		findByIdSpy.withArgs('uuid_tool')
-			.and.returnValue({exec: () => Promise.resolve(tool) });
+		findByIdSpy.mockImplementation(() => {
+			return { exec: () => Promise.resolve(tool) };
+		});
+
 		const status = await checkoutTool('uuid_tool', 'user_id');
 
 		expect(status).toBe(CheckoutRequestStatus.CURRENTLY_INUSE);
@@ -75,8 +86,9 @@ describe('checkout', () => {
 		};
 
 		const toolSpy = spyOn(tool, 'save');
-		findByIdSpy.withArgs('uuid_tool')
-			.and.returnValue({exec: () => Promise.resolve(tool) });
+		findByIdSpy.mockImplementation(() => {
+			return { exec: () => Promise.resolve(tool) };
+		});
 		const status = await checkoutTool('uuid_tool', 'user_id');
 
 		expect(status).toBe(CheckoutRequestStatus.CHECKED_OUT);

@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "ts-node node_modules/jasmine/bin/jasmine \"**/*.spec.ts\"",
+    "test": "jest *.spec.ts",
+    "test-coverage": "jest app/services/tool/*.spec.ts --env=node --colors --coverage ",
     "dev": "ts-node-dev --respawn --transpileOnly ./app/app.ts",
     "prod": "tsc && node ./build/app.js"
   },
@@ -33,8 +34,9 @@
     "typescript": "^3.4.2"
   },
   "devDependencies": {
-    "@types/jasmine": "^3.3.12",
+    "@types/jest": "^24.0.11",
     "@types/node": "^11.13.0",
-    "jasmine": "^3.4.0"
+    "jest": "^24.7.1",
+    "ts-jest": "^24.0.2"
   }
 }

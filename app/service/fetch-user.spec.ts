@@ -1,4 +1,4 @@
-import 'jasmine';
+import 'jest';
 
 import { cognitoClient } from "./congito-client";
 import { ListUsersResponse } from "aws-sdk/clients/cognitoidentityserviceprovider";
@@ -8,12 +8,16 @@ const cache = require('memory-cache');
 
 describe('fetch user', () => {
 
-	let listUserSpy: jasmine.Spy;
+	let listUserSpy: jest.SpyInstance;
 	config.userPoolId = 'fake_config_id';
 
 	beforeEach(() => {
 		cache.clear();
-		listUserSpy = spyOn(cognitoClient, 'listUsers');
+		listUserSpy = jest.spyOn(cognitoClient, 'listUsers');
+	});
+
+	afterEach(() => {
+		listUserSpy.mockReset();
 	});
 
 	it ('should be able to fetch a user and save it to the cache', async () => {
@@ -30,7 +34,7 @@ describe('fetch user', () => {
 			]
 		};
 
-		listUserSpy.withArgs({ Filter: 'sub = "user_id"', UserPoolId: 'fake_config_id' }).and.callFake(() => {
+		listUserSpy.mockImplementation(() => {
 			return { promise: () => Promise.resolve(users) }
 		});
 
@@ -49,7 +53,7 @@ describe('fetch user', () => {
 			Users: []
 		};
 
-		listUserSpy.withArgs({ Filter: 'sub = "user_id"', UserPoolId: 'fake_config_id' }).and.callFake(() => {
+		listUserSpy.mockImplementation(() => {
 			return { promise: () => Promise.resolve(users) }
 		});
 
