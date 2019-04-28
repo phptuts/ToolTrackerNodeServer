@@ -167,6 +167,6 @@ const handleError = (error, res: Response) => {
 };
 
 app.listen(3000,  () => {
-	console.log('Tool Tracker Running on port 3000.!');
+	console.log('Tool tracker Running on port 3000.!');
 });
 
