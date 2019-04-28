@@ -1,0 +1,8 @@
+{
+  "alg": "RS256",
+  "e": "asdf",
+  "kid": "fake",
+  "kty": "asdf",
+  "n": "fke",
+  "use": "sig"
+}
