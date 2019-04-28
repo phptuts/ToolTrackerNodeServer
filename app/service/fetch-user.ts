@@ -7,6 +7,7 @@ import { cognitoClient } from './congito-client';
 export const getUserObject = async (id: string) => {
 
 	const cacheUser = cache.get(`user-${id}`);
+	console.log(cacheUser, 'cached user');
 	if (cacheUser) {
 		return cacheUser;
 	}

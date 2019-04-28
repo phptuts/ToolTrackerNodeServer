@@ -4,15 +4,37 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "ts-node node_modules/jasmine/bin/jasmine \"**/*.spec.ts\"",
+    "test": "mocha --require ts-node/register 'app/**/*.test.ts'",
+    "test-coverage": "nyc mocha --require ts-node/register 'app/**/*.test.ts'",
     "dev": "ts-node-dev --respawn --transpileOnly ./app/app.ts",
     "prod": "tsc && node ./build/app.js"
+  },
+  "nyc": {
+    "include": [
+      "app/**/*.ts"
+    ],
+    "exclude": [
+      "app/**/*.test.ts"
+    ],
+    "extension": [
+      ".ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "reporter": [
+      "text-summary",
+      "html"
+    ],
+    "sourceMap": true,
+    "instrument": true
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@aws-amplify/auth": "^1.2.22",
+    "@types/chai-spies": "^1.0.0",
     "@types/express": "^4.16.1",
     "@types/jsonwebtoken": "^8.3.2",
     "@types/memory-cache": "^0.2.0",
@@ -29,12 +51,24 @@
     "memory-cache": "^0.2.0",
     "mongoose": "^5.5.0",
     "mongoose-unique-validator": "^2.0.2",
-    "ts-node-dev": "^1.0.0-pre.32",
-    "typescript": "^3.4.2"
+    "ts-node-dev": "^1.0.0-pre.32"
   },
   "devDependencies": {
-    "@types/jasmine": "^3.3.12",
+    "@types/chai": "^4.1.7",
+    "@types/mocha": "^5.2.6",
     "@types/node": "^11.13.0",
-    "jasmine": "^3.4.0"
+    "@types/sinon": "^7.0.11",
+    "chai": "^4.2.0",
+    "chai-spy": "0.0.1",
+    "chia": "0.0.1",
+    "codecov": "^3.3.0",
+    "istanbul": "^0.4.5",
+    "jasmine": "^3.4.0",
+    "mocha": "^6.1.4",
+    "nyc": "^14.0.0",
+    "simon": "^0.2.3",
+    "sinon": "^7.3.2",
+    "ts-node": "^8.1.0",
+    "typescript": "^3.4.5"
   }
 }
