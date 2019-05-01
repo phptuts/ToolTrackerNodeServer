@@ -1,4 +1,4 @@
-import fetch from 'cross-fetch';
+const fetch = require('cross-fetch');
 (global as any).fetch = (global as any).fetch || fetch;
 const config = require('./../../config.json');
 import { CognitoUserPool, AuthenticationDetails, CognitoUser, CognitoUserSession } from 'amazon-cognito-identity-js';

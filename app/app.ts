@@ -8,6 +8,7 @@ import { getTools } from "./service/tool/get-tool";
 import { CheckoutRequestStatus, checkoutTool } from "./service/tool/checkout";
 import { returnTool, ReturnToolStatus } from "./service/tool/return-tool";
 import { JWT_ENUM, verifyAuthToken } from "./service/verify-token";
+import { deleteTool, DeleteToolStatus } from "./service/tool/delete-tool";
 import bodyParser = require("body-parser");
 // Create a new express application instance
 const app: express.Application = express();
@@ -82,6 +83,32 @@ app.get('/tool', async (req, res) => {
 
 });
 
+app.delete('/tool/:id', async (req, res) => {
+	console.log('hello world');
+	const id = req.params['id'];
+
+	if (!id) {
+		res.status(404).send({'error': 'Tool not found.'});
+		return;
+	}
+
+	try {
+		const status = await deleteTool(id);
+
+		if (status == DeleteToolStatus.DELETED) {
+			res.status(204).send('');
+			return;
+		}
+
+		res.status(500).send({'error': 'error deleting tool.'});
+
+	} catch (e) {
+		console.log(e);
+		return res.send('').status(500);
+	}
+});
+
+
 app.patch('/tool-checkout/:id', async (req, res) => {
 
 	const id = req.params['id'];
@@ -150,6 +177,7 @@ app.patch('/tool-return/:id', async (req, res) => {
 		return;
 	}
 });
+
 
 
 /**
